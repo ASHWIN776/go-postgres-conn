@@ -69,6 +69,18 @@ func main() {
 	}
 
 	// Get row by id
+	query = `select * from users where first_name=$1`
+	row := conn.QueryRow(query, "John")
+	var first_name, last_name string
+	var id int
+
+	err = row.Scan(&id, &first_name, &last_name)
+
+	if err != nil {
+		log.Fatal("could not get row")
+	}
+
+	log.Printf("Returned Row: id - %d, %s %s\n", id, first_name, last_name)
 
 	// Delete row by id
 
