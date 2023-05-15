@@ -34,13 +34,39 @@ func main() {
 		log.Fatal("failed getRows()", err)
 	}
 
+	var query string
+
 	// Insert a row
+	query = `insert into users (first_name, last_name) values ($1, $2)`
+	_, err = conn.Exec(query, "Jack", "Brown")
+
+	if err != nil {
+		log.Fatal("could not insert row")
+	}
+	log.Println("Inserted row")
 
 	// Get all rows again
+	err = getRows(conn)
+	if err != nil {
+		log.Fatal("failed getRows()", err)
+	}
 
 	// Update a row
+	query = `update users set first_name=$1 where id=$2`
+	res, err := conn.Exec(query, "John", 1)
+
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	rowsAffected, _ := res.RowsAffected()
+	log.Println("Updated rows - ", rowsAffected)
 
 	// Get all rows again
+	err = getRows(conn)
+	if err != nil {
+		log.Fatal("failed getRows()", err)
+	}
 
 	// Get row by id
 
