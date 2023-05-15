@@ -126,6 +126,11 @@ func getRows(conn *sql.DB) error {
 		log.Printf("Row %d: %d %s %s\n", rowId, id, first_name, last_name)
 	}
 
+	// Catching the error from rows.Next()
+	if err = rows.Err(); err != nil {
+		log.Fatal("error of rows.Next() ", err)
+	}
+
 	log.Println("--------------------------------------------------")
 	return nil
 }
