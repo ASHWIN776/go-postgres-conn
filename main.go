@@ -83,8 +83,21 @@ func main() {
 	log.Printf("Returned Row: id - %d, %s %s\n", id, first_name, last_name)
 
 	// Delete row by id
+	query = `delete from users where id=$1`
+	res, err = conn.Exec(query, 1)
+
+	if err != nil {
+		log.Fatal("could not delete from users ", err)
+	}
+
+	rowsAffected, _ = res.RowsAffected()
+	log.Println("Deleted rows - ", rowsAffected)
 
 	// Get all rows again
+	err = getRows(conn)
+	if err != nil {
+		log.Fatal("failed getRows()", err)
+	}
 }
 
 func getRows(conn *sql.DB) error {
