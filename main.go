@@ -52,8 +52,8 @@ func main() {
 	}
 
 	// Update a row
-	query = `update users set first_name=$1 where id=$2`
-	res, err := conn.Exec(query, "John", 1)
+	query = `update users set first_name=$1 where first_name=$2`
+	res, err := conn.Exec(query, "Johnny", "John")
 
 	if err != nil {
 		log.Fatal(err)
@@ -77,10 +77,10 @@ func main() {
 	err = row.Scan(&id, &first_name, &last_name)
 
 	if err != nil {
-		log.Fatal("could not get row")
+		log.Println("could not get row")
+	} else {
+		log.Printf("Returned Row: id - %d, %s %s\n", id, first_name, last_name)
 	}
-
-	log.Printf("Returned Row: id - %d, %s %s\n", id, first_name, last_name)
 
 	// Delete row by id
 	query = `delete from users where id=$1`
